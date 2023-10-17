@@ -1,5 +1,6 @@
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,14 +32,25 @@ public class principal {
                     System.out.println(jugador);
                 }
             } else if (opcion == 2) {
-                // Los 3 mejores líberos
-                List<jugador> jugadores = ispjae.obtenerJugadores();
-                Collections.sort(jugadores, (j1, j2) -> Double.compare(j2.calcularEfectividad(), j1.calcularEfectividad()));
-                int contadorLiberos = 0;
-                for (jugador jugador : jugadores) {
-                    if (jugador instanceof libero && contadorLiberos < 3) {
-                        System.out.println(jugador);
-                        contadorLiberos++;
+                 // Los 3 mejores líberos
+                    List<jugador> jugadores = ispjae.obtenerJugadores();
+                    List<libero> liberos = new ArrayList<>();
+    
+    // Filtra y obtén solo a los jugadores de tipo libero
+                    for (jugador jugador : jugadores) {
+                    if (jugador instanceof libero) {
+                    liberos.add((libero) jugador); // Convierte jugador a libero
+                    }
+                }
+
+    // Ordena la lista de liberos en función de su efectividad
+                    Collections.sort(liberos, (l1, l2) -> Double.compare(l2.calcularEfectividad(), l1.calcularEfectividad()));
+
+                    int contadorLiberos = 0;
+                    for (libero libero : liberos) {
+                    if (contadorLiberos < 3) {
+                    System.out.println(libero);
+                    contadorLiberos++;
                     }
                 }
             } else if (opcion == 3) {

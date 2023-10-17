@@ -50,11 +50,15 @@ public class auxiliares extends jugador {
 
     @Override
     public String toString() {
-        return "{" +
-            " ataques='" + getAtaques() + "'" +
-            ", bloqueosEfectivos='" + getBloqueosEfectivos() + "'" +
-            ", bloqueosFallidos='" + getBloqueosFallidos() + "'" +
-            "}";
+        return "Nombre: " + getNombre() +
+        ", País: " + getPais() +
+            ", Errores: " + getErrores() +
+            ", Aces: " + getAces() +
+            ", Total de servicios: " + getTotaldeservicios() +
+            ", Ataques efectivos: " + getAtaques() +
+            ", Bloqueos efectivos: " + getBloqueosEfectivos() +
+            ", Bloqueos fallidos: " + getBloqueosFallidos() +
+            ", Efectividad: " + calcularEfectividad();
     }
 
     

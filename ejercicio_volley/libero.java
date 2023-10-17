@@ -31,9 +31,13 @@ public class libero extends jugador{
 
     @Override
     public String toString() {
-        return "{" +
-            " recibosefectivos='" + getRecibosefectivos() + "'" +
-            "}";
+        return "Nombre: " + getNombre() +
+        ", País: " + getPais() +
+        ", Errores: " + getErrores() +
+        ", Aces: " + getAces() +
+        ", Total de servicios: " + getTotaldeservicios() +
+        ", Recibos efectivos: " + getRecibosefectivos() +
+        ", Efectividad: " + calcularEfectividad();
     }
 
 

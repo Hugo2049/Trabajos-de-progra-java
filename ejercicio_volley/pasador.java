@@ -39,9 +39,13 @@ public class pasador extends jugador {
 
     @Override
     public String toString() {
-        return "{" +
-            " pases='" + getPases() + "'" +
-            ", jugadasdeengaño='" + getJugadasdeengaño() + "'" +
-            "}";
-    }
+    return "Nombre: " + getNombre() +
+    ", País: " + getPais() +
+    ", Errores: " + getErrores() +
+    ", Aces: " + getAces() +
+    ", Total de servicios: " + getTotaldeservicios() +
+    ", Pases efectivos: " + getPases() +
+    ", Jugadas de engaño: " + getJugadasdeengaño() +
+    ", Efectividad: " + calcularEfectividad();
+}
 }

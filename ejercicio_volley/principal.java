@@ -1,4 +1,3 @@
-package ejercicio_volley;
 
 import java.util.Scanner;
 import java.util.Collections;

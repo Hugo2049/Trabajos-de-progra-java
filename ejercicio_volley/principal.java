@@ -64,11 +64,24 @@ public class principal {
                 }
                 System.out.println("Cantidad de pasadores con más de un 80% de efectividad: " + contadorPasadoresEfectivos);;
             } else if (opcion == 4) {
-                // Guardar catálogo en un archivo CSV
-                // Implementa la lógica para guardar la información de la plantilla en un archivo CSV
             } else if (opcion == 5) {
-                // Cargar catálogo de un archivo CSV
-                // Implementa la lógica para cargar la información de la plantilla desde un archivo CSV
+
+
+
+                //
+
+
+/*  El cuatro y el cinco no loa hice porque sinceramente no comprendí como se hacea lo de el csv, por lo que realice un codigo
+similar al anterior de herencia donde agrego yo los jugadores y los muetro. 
+}*/
+
+                //
+
+
+
+
+
+
             } else if (opcion == 6) {
                 // Agregar un nuevo jugador
                 System.out.println("Nombre del jugador: ");

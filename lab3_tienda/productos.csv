@@ -1,0 +1,7 @@
+id_producto | nombre | cantidad_disponible | cantidad_vendidos | estado | precio | categoria | ml | tipo | gramos | sabor | tamaño
+1 | Bebida Energética | 100 | 50 | Disponible | 2.5 | Bebidas | 355 | Energética
+2 | Snack Salado | 75 | 30 | Disponible | 1.0 | Snacks | 100 | Barbacoa | Individual
+3 | Bebida Natural | 80 | 40 | No disponible | 3.0 | Bebidas | 500 | Natural
+4 | Snack Picante | 60 | 20 | Disponible | 1.5 | Snacks | 80 | Picante | Familiar
+5 | Juguete Peluche | 25 | 10 | Disponible | 10.0 | Juguetes | Peluche | Marca A
+6 | Juguete Figura de Acción | 30 | 15 | Disponible | 15.0 | Juguetes | Plástico | Marca B

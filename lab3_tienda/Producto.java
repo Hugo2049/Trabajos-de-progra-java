@@ -90,5 +90,5 @@ public class Producto {
             "}";
     }
 
-    // Constructor, getters, setters y otros métodos comunes
+    
 }

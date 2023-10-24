@@ -1,23 +1,12 @@
 package lab3_tienda;
 
-public class Producto {
+public abstract class Producto {
     private int id;
     private String nombre;
     private int cantidadDisponible;
     private int cantidadVendidos;
     private String estado;
     private double precio;
-
-    public Producto() {
-        id = 0;
-        nombre = "";
-        cantidadDisponible = 0;
-        cantidadVendidos = 0;
-        estado = "";
-        precio = 0;
-    }
-
-
 
     public Producto(int id, String nombre, int cantidadDisponible, int cantidadVendidos, String estado, double precio) {
         this.id = id;
@@ -28,67 +17,55 @@ public class Producto {
         this.precio = precio;
     }
 
-
     public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        return id;
     }
 
     public String getNombre() {
-        return this.nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+        return nombre;
     }
 
     public int getCantidadDisponible() {
-        return this.cantidadDisponible;
-    }
-
-    public void setCantidadDisponible(int cantidadDisponible) {
-        this.cantidadDisponible = cantidadDisponible;
+        return cantidadDisponible;
     }
 
     public int getCantidadVendidos() {
-        return this.cantidadVendidos;
-    }
-
-    public void setCantidadVendidos(int cantidadVendidos) {
-        this.cantidadVendidos = cantidadVendidos;
+        return cantidadVendidos;
     }
 
     public String getEstado() {
-        return this.estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+        return estado;
     }
 
     public double getPrecio() {
-        return this.precio;
+        return precio;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
+    public abstract String getCategoria();
 
-
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", nombre='" + getNombre() + "'" +
-            ", cantidadDisponible='" + getCantidadDisponible() + "'" +
-            ", cantidadVendidos='" + getCantidadVendidos() + "'" +
-            ", estado='" + getEstado() + "'" +
-            ", precio='" + getPrecio() + "'" +
-            "}";
-    }
-
+    public static Producto fromCSV(String csv) {
+        String[] datos = csv.split(";");
+        if (datos.length >= 7) {
+            int id = Integer.parseInt(datos[0].trim());
+            String nombre = datos[1].trim();
+            int cantidadDisponible = Integer.parseInt(datos[2].trim());
+            int cantidadVendidos = Integer.parseInt(datos[3].trim());
+            String estado = datos[4].trim();
+            double precio = Double.parseDouble(datos[5].trim());
+            String categoria = datos[6].trim();
     
+            if (categoria.equals("Bebida")) {
+                return Bebida.fromCSV(csv);
+            } else if (categoria.equals("Juguetes")) {
+                return Juguetes.fromCSV(csv);
+            } else if (categoria.equals("Snack")) {
+                return Snack.fromCSV(csv);
+            }
+        }
+        return null;
+    }
+
+    public String toCSV() {
+        return String.format("%d;%s;%d;%d;%s;%.2f;%s", id, nombre, cantidadDisponible, cantidadVendidos, estado, precio, getCategoria());
+    }
 }

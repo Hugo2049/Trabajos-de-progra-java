@@ -4,12 +4,6 @@ public class Juguetes extends Producto {
     private String material;
     private String marca;
 
-    public Juguetes() {
-        super();
-        material = "";
-        marca = "";
-    }
-
     public Juguetes(int id, String nombre, int cantidadDisponible, int cantidadVendidos, String estado, double precio, String material, String marca) {
         super(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio);
         this.material = material;
@@ -20,12 +14,12 @@ public class Juguetes extends Producto {
         return material;
     }
 
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
     public String getMarca() {
         return marca;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     public void setMarca(String marca) {
@@ -33,11 +27,26 @@ public class Juguetes extends Producto {
     }
 
     @Override
-    public String toString() {
-        return "Juguetes {" +
-            super.toString() +
-            ", material='" + material + "'" +
-            ", marca='" + marca + "'" +
-            "}";
+    public String getCategoria() {
+        return "Juguetes";
+    }
+
+    public static Juguetes fromCSV(String csv) {
+        Juguetes juguete = (Juguetes) Producto.fromCSV(csv);
+        if (juguete != null) {
+            String[] datos = csv.split(";");
+            if (datos.length >= 8) {
+                String material = datos[6].trim();
+                String marca = datos[7].trim();
+                juguete.setMaterial(material);
+                juguete.setMarca(marca);
+            }
+        }
+        return juguete;
+    }
+    
+
+    public String toCSV() {
+        return super.toCSV() + String.format(";%s;%s", material, marca);
     }
 }

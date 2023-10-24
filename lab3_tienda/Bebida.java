@@ -1,31 +1,25 @@
 package lab3_tienda;
 
 public class Bebida extends Producto {
-    private int mililitros;
+    private int ml;
     private String tipo;
 
-    public Bebida() {
-        super();
-        mililitros = 0;
-        tipo = "";
-    }
-
-    public Bebida(int id, String nombre, int cantidadDisponible, int cantidadVendidos, String estado, double precio, int mililitros, String tipo) {
+    public Bebida(int id, String nombre, int cantidadDisponible, int cantidadVendidos, String estado, double precio, int ml, String tipo) {
         super(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio);
-        this.mililitros = mililitros;
+        this.ml = ml;
         this.tipo = tipo;
     }
 
-    public int getMililitros() {
-        return mililitros;
-    }
-
-    public void setMililitros(int mililitros) {
-        this.mililitros = mililitros;
+    public int getMl() {
+        return ml;
     }
 
     public String getTipo() {
         return tipo;
+    }
+
+    public void setMl(int ml) {
+        this.ml = ml;
     }
 
     public void setTipo(String tipo) {
@@ -33,11 +27,28 @@ public class Bebida extends Producto {
     }
 
     @Override
-    public String toString() {
-        return "Bebida {" +
-            super.toString() +
-            ", mililitros='" + mililitros + "'" +
-            ", tipo='" + tipo + "'" +
-            "}";
+    public String getCategoria() {
+        return "Bebida";
+    }
+
+    public static Bebida fromCSV(String csv) {
+        String[] datos = csv.split(";");
+        if (datos.length >= 8) {
+            int id = Integer.parseInt(datos[0].trim());
+            String nombre = datos[1].trim();
+            int cantidadDisponible = Integer.parseInt(datos[2].trim());
+            int cantidadVendidos = Integer.parseInt(datos[3].trim());
+            String estado = datos[4].trim();
+            double precio = Double.parseDouble(datos[5].trim());
+            int ml = Integer.parseInt(datos[7].trim());
+            String tipo = datos[8].trim();
+    
+            return new Bebida(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio, ml, tipo);
+        }
+        return null;
+    }
+
+    public String toCSV() {
+        return super.toCSV() + String.format(";%d;%s", ml, tipo);
     }
 }

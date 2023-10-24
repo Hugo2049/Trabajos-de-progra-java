@@ -1,0 +1,4 @@
+id;nombre;cantidad_disponible;cantidad_vendidos;estado;precio;categoria;ml;tipo;gramos;sabor;tamaño
+1;Refresco;100;50;Disponible;1.5;Bebida;500;Cola;330;Regular;500ml
+2;Peluche;50;20;Disponible;10;Juguetes;;Osito de peluche;;;
+3;Papitas;200;100;Disponible;0.5;Snack;;Papitas de queso;;;

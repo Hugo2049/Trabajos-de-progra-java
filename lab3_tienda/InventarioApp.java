@@ -5,72 +5,72 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class InventarioApp {
     public static void main(String[] args) {
         List<Producto> inventario = new ArrayList<>();
-
-        // Cargar productos desde un archivo CSV
         cargarProductosDesdeCSV(inventario, "productos.csv");
 
-        // Listar productos por categoría (por ejemplo, Bebidas)
-        listarProductosDeCategoria(inventario, Bebida.class);
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
 
-        // Buscar un producto por ID
-        Producto productoBuscado = buscarProductoPorId(inventario, 1);
-        if (productoBuscado != null) {
-            System.out.println("Producto encontrado: " + productoBuscado.getNombre());
-        } else {
-            System.out.println("Producto no encontrado.");
-        }
+        do {
+            System.out.println("\n=== Menú de Inventario ===");
+            System.out.println("1. Buscar producto por ID");
+            System.out.println("2. Listar productos de una categoría");
+            System.out.println("3. Mostrar ventas totales");
+            System.out.println("4. Calcular comisión por categoría");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
 
-        // Calcular ventas totales
-        double ventasTotales = calcularVentasTotales(inventario);
-        System.out.println("Ventas totales: Q" + ventasTotales);
+            opcion = scanner.nextInt();
 
-        // Calcular comisión para la categoría de Juguetes
-        double comisionJuguetes = calcularComisionPorCategoria(inventario, Juguetes.class);
-        System.out.println("Comisión por la categoría de Juguetes: Q" + comisionJuguetes);
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese el ID del producto a buscar: ");
+                    int idABuscar = scanner.nextInt();
+                    Producto productoBuscado = buscarProductoPorId(inventario, idABuscar);
+                    if (productoBuscado != null) {
+                        System.out.println("Producto encontrado: " + productoBuscado.getNombre());
+                    } else {
+                        System.out.println("Producto no encontrado.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Ingrese la categoría a listar (Bebida, Juguetes, Snack): ");
+                    String categoria = scanner.next();
+                    listarProductosDeCategoria(inventario, categoria);
+                    break;
+                case 3:
+                    double ventasTotales = calcularVentasTotales(inventario);
+                    System.out.println("Ventas totales: Q" + ventasTotales);
+                    break;
+                case 4:
+                    System.out.print("Ingrese la categoría para calcular la comisión (Bebida, Juguetes, Snack): ");
+                    String categoriaComision = scanner.next();
+                    double comision = calcularComisionPorCategoria(inventario, categoriaComision);
+                    System.out.println("Comisión por la categoría " + categoriaComision + ": Q" + comision);
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa.");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while (opcion != 5);
+
+        scanner.close();
     }
 
     private static void cargarProductosDesdeCSV(List<Producto> inventario, String archivoCSV) {
         try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
             String linea;
+            // Leer la primera línea para omitirla (encabezados)
+            br.readLine();
             while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split("\\|");
-                if (datos.length >= 7) {
-                    int id = Integer.parseInt(datos[0].trim());
-                    String nombre = datos[1].trim();
-                    int cantidadDisponible = Integer.parseInt(datos[2].trim());
-                    int cantidadVendidos = Integer.parseInt(datos[3].trim());
-                    String estado = datos[4].trim();
-                    double precio = Double.parseDouble(datos[5].trim());
-                    String categoria = datos[6].trim();
-
-                    Producto producto;
-
-                    switch (categoria) {
-                        case "Bebidas":
-                            int ml = Integer.parseInt(datos[7].trim());
-                            String tipo = datos[8].trim();
-                            producto = new Bebida(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio, ml, tipo);
-                            break;
-                        case "Snacks":
-                            int gramos = Integer.parseInt(datos[9].trim());
-                            String sabor = datos[10].trim();
-                            String tamaño = datos[11].trim();
-                            producto = new Snack(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio, gramos, sabor, tamaño);
-                            break;
-                        case "Juguetes":
-                            String material = datos[7].trim();
-                            String marca = datos[8].trim();
-                            producto = new Juguetes(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio, material, marca);
-                            break;
-                        default:
-                            producto = new Producto(id, nombre, cantidadDisponible, cantidadVendidos, estado, precio);
-                            break;
-                    }
-
+                Producto producto = Producto.fromCSV(linea.replace(";", "|"));
+                if (producto != null) {
                     inventario.add(producto);
                 }
             }
@@ -78,11 +78,11 @@ public class InventarioApp {
             e.printStackTrace();
         }
     }
-
-    private static void listarProductosDeCategoria(List<Producto> inventario, Class<? extends Producto> categoria) {
-        System.out.println("Listado de productos de la categoría " + categoria.getSimpleName() + ":");
+    
+    private static void listarProductosDeCategoria(List<Producto> inventario, String categoria) {
+        System.out.println("Listado de productos de la categoría " + categoria + ":");
         for (Producto producto : inventario) {
-            if (categoria.isInstance(producto)) {
+            if (categoria.equals(producto.getCategoria())) {
                 System.out.println(producto.getNombre());
             }
         }
@@ -105,11 +105,11 @@ public class InventarioApp {
         return ventasTotales;
     }
 
-    private static double calcularComisionPorCategoria(List<Producto> inventario, Class<? extends Producto> categoria) {
+    private static double calcularComisionPorCategoria(List<Producto> inventario, String categoria) {
         double comision = 0;
         for (Producto producto : inventario) {
-            if (categoria.isInstance(producto)) {
-                comision += producto.getPrecio() * 0.2; // 20% de comisión
+            if (categoria.equals(producto.getCategoria())) {
+                comision += producto.getPrecio() * 0.2;
             }
         }
         return comision;
